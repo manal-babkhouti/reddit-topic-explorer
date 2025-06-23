@@ -1,0 +1,14 @@
+pandas
+numpy
+matplotlib
+scikit-learn
+umap-learn
+hdbscan
+keybert
+sentence-transformers
+requests
+python-dotenv
+seaborn
+streamlit
+nltk
+praw
