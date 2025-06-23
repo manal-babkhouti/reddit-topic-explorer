@@ -141,6 +141,11 @@ EMAIL_PASS=your_password
 EMAIL_TO=recipient@email.com
 ```
 
+## 🖥️ App Preview
+
+<img src="data/screenshots/dashboard.png" width="700"/>
+
+<img src="data/screenshots/email_summary.png" width="700"/>
 ---
 
 ## 📸 Sample Visuals (Saved to `/data`)
@@ -164,7 +169,7 @@ You can view these in the notebook or dashboard.
 
 ---
 
-## 👏 Credits
+## 🛠️ Technologies Used
 
 Built with:
 - 🤖 `sentence-transformers`
