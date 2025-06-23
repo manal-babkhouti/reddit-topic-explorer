@@ -1,6 +1,7 @@
 # 🧠 Reddit Topic Explorer — Market Intelligence from Online Communities
 
-> A full-stack NLP project to extract, cluster, and visualize trending AI topics from Reddit using sentence embeddings, unsupervised clustering (KMeans + HDBSCAN), and an interactive dashboard. Designed for individuals who want to tap into organic tech conversations and surface actionable insights.
+> An end-to-end NLP pipeline that extracts, clusters, and visualizes trending AI topics from Reddit using sentence embeddings, unsupervised clustering (KMeans + HDBSCAN), and an interactive Streamlit dashboard.
+
 
 ---
 
