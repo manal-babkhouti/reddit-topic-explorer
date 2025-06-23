@@ -1,13 +1,12 @@
 # 🧠 Reddit Topic Explorer — Market Intelligence from Online Communities
 
-> An end-to-end NLP pipeline that extracts, clusters, and visualizes trending AI topics from Reddit using sentence embeddings, unsupervised clustering (KMeans + HDBSCAN), and an interactive Streamlit dashboard.
-
+> A semi-automated, end-to-end NLP pipeline that extracts, clusters, and visualizes trending AI topics from Reddit using sentence embeddings, unsupervised clustering (KMeans + HDBSCAN), and an interactive Streamlit dashboard.
 
 ---
 
 ## 💼 Business Use Case
 
-"Reddit Topic Explorer" enables **marketing teams, product strategists, researchers**, and **investors** to monitor and analyze Reddit discussions around AI and machine learning:
+"Reddit Topic Explorer" provides a prototype for how **marketing teams, product strategists, researchers**, and **investors** can monitor and analyze Reddit discussions around AI and machine learning:
 
 - 📈 **Trendspotting**: Identify what users are talking about, what's emerging, and what’s losing interest.
 - 🧭 **Market Mapping**: Cluster organic discussions to understand different AI subdomains (LLMs, MLOps, tools, ethics, etc.).
@@ -22,7 +21,7 @@ It’s especially useful for:
 
 ---
 
-## 🚀 Pipeline Overview (Thoughtfully Designed)
+## 🚀 Pipeline Overview (Modular & Reproducible)
 
 | Step | Component                        | Purpose                                                                 |
 |------|----------------------------------|-------------------------------------------------------------------------|
@@ -34,7 +33,7 @@ It’s especially useful for:
 | 6️⃣   | `cluster_hdbscan.py`           | Use HDBSCAN for density-based clustering with noise/outlier detection  |
 | 7️⃣   | `add_pca_coordinates.py`       | Run PCA to reduce embeddings to 2D for scatter plots                   |
 | 8️⃣   | `app.py`                       | Streamlit dashboard for filtering, keyword browsing, topic exploration |
-| 9️⃣   | `email_dispatcher.py`          | Send summaries of cluster results by email (via SMTP)                  |
+| 9️⃣   | `email_dispatcher.py`          | Optional: send summaries of cluster results by email (via SMTP)        |
 | 🔬    | `clustering_analysis_.ipynb`   | Extra insights: cluster quality, keyword coherence, comparisons        |
 
 ---
@@ -47,7 +46,7 @@ It’s especially useful for:
 - **HDBSCAN**: Excels at detecting noise and irregular cluster shapes — more realistic for Reddit's messy, organic data.
 - **PCA**: Helps reduce high-dimensional embeddings to 2D while preserving structure for scatter plot visualization.
 - **Streamlit**: Chosen for interactive UX, easy exploration, and fast deployment.
-- **Email Summary**: Automates stakeholder updates with a summary of what's trending.
+- **Email Summary**: Scripted email reports allow optional stakeholder updates with keyword summaries.
 
 ---
 
@@ -147,6 +146,7 @@ EMAIL_TO=recipient@email.com
 <img src="data/screenshots/dashboard.png" width="700"/>
 
 <img src="data/screenshots/email_summary.png" width="700"/>
+
 ---
 
 ## 📸 Sample Visuals (Saved to `/data`)
@@ -184,5 +184,4 @@ Built with:
 
 ## ✨ Final Thoughts
 
-This project combines **language modeling, unsupervised learning**, and **interactive visualization** in a pipeline that's not only technically solid, but actually useful in real-world insight gathering.
-
+This project combines **language modeling, unsupervised learning**, and **interactive visualization** in a pipeline that is technically sound and shows strong potential for exploratory insight discovery in real-world datasets like Reddit.
