@@ -1,0 +1,19 @@
+# Ignore secrets and sensitive files
+.env
+
+# Ignore Python cache and virtual env
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+env/
+venv/
+
+# Ignore version control and system files
+.git
+.gitignore
+.DS_Store
+
+# Optional: ignore database or temp files
+*.db
+*.log
