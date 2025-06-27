@@ -186,9 +186,14 @@ with tab2:
 
 with tab3:
     st.subheader("🔍 Explore a Cluster")
+    from wordcloud import WordCloud
+    import matplotlib.pyplot as plt
+
+    # === Filters ===
     with st.expander("🔍 Advanced Filters", expanded=True):
         keyword_filter = st.text_input("Filter by keyword in text")
 
+    # === Cluster selection ===
     available_clusters = sorted([c for c in df[label_col].unique() if c != -1])
     selected_cluster = st.radio("Select Cluster", available_clusters, horizontal=True)
 
@@ -197,27 +202,64 @@ with tab3:
     if keyword_filter:
         filtered_df = filtered_df[filtered_df[text_col].str.contains(keyword_filter, case=True, na=False)]
 
-    keyword_path = f"data/cluster_top_keywords_{label_col}.csv"
-    if os.path.exists(keyword_path):
-        kw_df = pd.read_csv(keyword_path)
-        keywords_row = kw_df[kw_df["cluster"] == selected_cluster]
-        if not keywords_row.empty:
-            st.markdown(f"**Top Keywords:** {keywords_row.iloc[0]['top_keywords']}")
+    # === Word Cloud dynamically generated from cluster text ===
+    st.markdown("**🧠 Word Cloud from Cluster Text:**")
+    full_text = " ".join(filtered_df[text_col].dropna().astype(str).tolist())
 
-    st.markdown("**Sample Posts:**")
-    examples = filtered_df[text_col].dropna().reset_index(drop=True)
+    if len(full_text.strip()) > 0:
+        wordcloud = WordCloud(width=600, height=300, background_color="white", stopwords=None).generate(full_text)
+        fig_wc, ax_wc = plt.subplots(figsize=(6, 3))
+        ax_wc.imshow(wordcloud, interpolation='bilinear')
+        ax_wc.axis("off")
+        st.pyplot(fig_wc)
+    else:
+        st.info("No text available for this cluster.")
 
-    for i, post in enumerate(examples[:5], start=1):
-        if keyword_filter:
-            pattern = re.compile(f"({re.escape(keyword_filter)})", re.IGNORECASE)
-            post = pattern.sub(r"<mark class='highlight'>\1</mark>", post)
-        st.markdown(f"{i}. {post}", unsafe_allow_html=True)
+    # === Show Sample Posts with Pagination ===
+    st.markdown("**📝 Sample Posts:**")
 
+    # Extract posts from the selected cluster
+    examples = df[df[label_col] == selected_cluster][text_col].dropna().astype(str).reset_index(drop=True)
+
+    # Apply keyword filter
+    if keyword_filter:
+        examples = examples[examples.str.contains(keyword_filter, case=True, na=False)]
+
+    total_posts = len(examples)
+
+    # Show count
+    st.markdown(f"**Total posts found:** {total_posts}")
+
+    # Set pagination params
+    posts_per_page = 5
+    total_pages = (total_posts - 1) // posts_per_page + 1
+
+    # Avoid breaking if no posts
+    if total_posts == 0:
+        st.info("No posts found for this cluster with the current filter.")
+    else:
+        selected_page = st.number_input("Page", min_value=1, max_value=total_pages, step=1)
+
+        start_idx = (selected_page - 1) * posts_per_page
+        end_idx = min(start_idx + posts_per_page, total_posts)
+
+        for i, post in enumerate(examples[start_idx:end_idx], start=start_idx + 1):
+            if keyword_filter:
+                pattern = re.compile(f"({re.escape(keyword_filter)})", re.IGNORECASE)
+                post = pattern.sub(r"<mark class='highlight'>\1</mark>", post)
+
+            st.markdown(f"**Post {i}**", unsafe_allow_html=True)
+            st.text_area(label="", value=post, height=150, key=f"post_{i}")
+            st.markdown("---")
+
+
+    # === Optional thumbnails ===
     if "image_url" in df.columns:
-        st.markdown("**Related Thumbnails:**")
+        st.markdown("**🖼️ Related Thumbnails:**")
         imgs = filtered_df["image_url"].dropna().unique()[:5]
         for img_url in imgs:
             st.image(img_url, width=200)
+
 
 # === Download Option ===
 st.sidebar.markdown("---")
