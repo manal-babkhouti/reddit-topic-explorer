@@ -1,187 +1,180 @@
-# 🧠 Reddit Topic Explorer — Market Intelligence from Online Communities
+# 🔎 Reddit Topic Explorer
 
-> A semi-automated, end-to-end NLP pipeline that extracts, clusters, and visualizes trending AI topics from Reddit using sentence embeddings, unsupervised clustering (KMeans + HDBSCAN), and an interactive Streamlit dashboard.
+**Reddit Topic Explorer** is an end-to-end NLP project designed to cluster Reddit posts using semantic embeddings and unsupervised learning. It lets users interactively explore trending topics, discover latent themes, and gain insights from massive Reddit datasets.
 
----
+This project combines modern NLP, clustering, and visualization techniques into a clean pipeline and dashboard — making it ideal for content exploration, community analysis, or automated topic tracking.
+ 
+### 🚀 Why this project matters
 
-## 💼 Business Use Case
-
-"Reddit Topic Explorer" provides a prototype for how **marketing teams, product strategists, researchers**, and **investors** can monitor and analyze Reddit discussions around AI and machine learning:
-
-- 📈 **Trendspotting**: Identify what users are talking about, what's emerging, and what’s losing interest.
-- 🧭 **Market Mapping**: Cluster organic discussions to understand different AI subdomains (LLMs, MLOps, tools, ethics, etc.).
-- 💬 **Content Mining**: Extract meaningful keywords and themes using unsupervised methods.
-- 🧠 **Insight Delivery**: Package findings visually and optionally send email summaries to stakeholders.
-
-It’s especially useful for:
-- Venture capital scouting early signals
-- Product teams tracking community feedback
-- AI startups doing market positioning
-- Analysts exploring niche interests in tech forums
+- 📌 **Content Discovery**: Easily uncover emerging or hidden discussion themes in any subreddit or large corpus.
+- 📊 **Marketing & Trend Analysis**: Useful for brands, researchers, and analysts looking to spot trends or analyze sentiment.
+- 🧠 **Intelligent Summaries**: Each topic is automatically summarized with key keywords extracted using transformer-based models.
+- 🧪 **Robust ML Pipeline**: From preprocessing and embedding to clustering and summarization, the whole stack is modular and production-ready.
+- 📬 **Email Reports**: Get clean digest-style topic summaries directly via email — ideal for monitoring.
 
 ---
 
-## 🚀 Pipeline Overview (Modular & Reproducible)
 
-| Step | Component                        | Purpose                                                                 |
-|------|----------------------------------|-------------------------------------------------------------------------|
-| 1️⃣   | `fetch_data.py`                | Use PRAW to scrape long-form posts from selected AI-related subreddits |
-| 2️⃣   | `clean_data.py`                | Clean, normalize, remove noise, and prepare text for modeling          |
-| 3️⃣   | `encode_text.py`               | Generate sentence-level embeddings using `MiniLM` transformer          |
-| 4️⃣   | `extract_keywords.py`          | Extract top keywords per post using KeyBERT (cosine similarity method) |
-| 5️⃣   | `cluster_kmeans.py`            | Apply KMeans, compute Silhouette Score, visualize elbow & clusters     |
-| 6️⃣   | `cluster_hdbscan.py`           | Use HDBSCAN for density-based clustering with noise/outlier detection  |
-| 7️⃣   | `add_pca_coordinates.py`       | Run PCA to reduce embeddings to 2D for scatter plots                   |
-| 8️⃣   | `app.py`                       | Streamlit dashboard for filtering, keyword browsing, topic exploration |
-| 9️⃣   | `email_dispatcher.py`          | Optional: send summaries of cluster results by email (via SMTP)        |
-| 🔬    | `clustering_analysis_.ipynb`   | Extra insights: cluster quality, keyword coherence, comparisons        |
+## ✨ Features
+
+- 🔍 **Multi-Algorithm Clustering** — Explore both KMeans (k=4, k=5) and HDBSCAN clustering results
+- 🧠 **Dimensionality Reduction** — Visualize data in 2D using PCA
+- 🌐 **Interactive Cluster Exploration** — Select clusters, filter by keywords, and browse actual Reddit posts
+- ☁️ **Word Clouds** — Automatically generated per cluster for quick thematic insights
+- 📝 **Post Summaries & Highlights** — Each post is accompanied by a brief summary and key keywords for quick understanding.
+- 📊 **Cluster Metrics** — View Silhouette Score, Davies–Bouldin Index, and noise ratio (for HDBSCAN)
+- 📈 **Elbow Method Chart** — Precomputed K tuning plot for KMeans
+- 🌓 **Dark/Light Theme Toggle** — Choose between sleek dark mode and classic light
+- 📁 **Downloadable Outputs** — Export clustered datasets as CSV for further analysis
+
+## 🧪 How It Works
+
+This project takes Reddit post data and transforms it into a fully interactive topic exploration tool using clustering and natural language processing. Here's the pipeline:
+
+1. **📥 Data Collection**  
+   Raw Reddit post texts are gathered and preprocessed for analysis (cleaning, lowercasing, etc.).
+
+2. **🔤 Text Embedding**  
+   Posts are converted into numerical vectors using **MiniLM** sentence embeddings for capturing semantic similarity.
+
+3. **📉 Dimensionality Reduction**  
+   The high-dimensional embeddings are reduced to 2D with **PCA**, enabling visualization and clustering.
+
+4. **🧩 Clustering**  
+   - **KMeans** is used with preselected values of *k* (4 and 5), offering interpretable, fixed clusters.  
+   - **HDBSCAN** detects variable-density clusters and flags noise (outliers) automatically.
+
+5. **📋 Cluster Summaries**  
+   For each cluster, we extract representative **keywords** to describe its main themes.
+
+6. **🎨 Visualization App**  
+   The app allows users to:
+   - Explore cluster-level metrics (e.g., Silhouette score, noise ratio)
+   - View PCA visualizations and word clouds
+   - Dive into sample posts with auto-highlighted keywords
+   - Filter by keywords and navigate through post pages
+   - Switch between **basic** and **summary-enhanced** data versions
+   - Download clustered data
+
+7. **🌓 UI Features**  
+   Built with **Streamlit**, the app includes a responsive layout, dark/light themes, sidebar controls, and expandable filters.
+
+##📌 Project Pipeline & Visual Insights
+
+This project follows a structured, real-world pipeline from data acquisition to insightful visualization and automated summarization:
+
+🔄 End-to-End Pipeline Overview
+
+graph TD;
+    A[Reddit Data Collection] --> B[Text Preprocessing]
+    B --> C[Sentence Embeddings<br>with MiniLM]
+    C --> D[Clustering<br>(KMeans, HDBSCAN)]
+    D --> E[Dimensionality Reduction<br>(PCA, UMAP)]
+    D --> F[Keyword Summarization<br>with KeyBERT]
+    F --> G[Interactive Dashboard<br>with Streamlit]
+    G --> H[Automated Email Summaries]
+
+##📊 Visualizations & Results
+
+#### 📍 Cluster Visualization: KMeans (k=4)
+![kmeans_k4](images/kmeans_k4.png)
+
+#### 📍 Cluster Visualization: KMeans (k=5)
+![kmeans_k5](images/kmeans_k5.png)
+
+#### 📍 Cluster Visualization: HDBSCAN + UMAP
+![hdbscan_umap_plot](images/hdbscan_umap_plot.png)
+
+#### 📈 Elbow Plot for K Tuning
+![elbow](images/elbow.jpg)
+
+
+## 📉 Cluster Summary Snapshots
+
+### 🧠 HDBSCAN Topic Summary
+![summary_HDBSCAN](images/summary_HDBSCAN.png)
+
+### 🧠 KMeans Topic Summary (k=4)
+![summary_KMeans_(K=4)](images/summary_KMeans_(K=4).png)
+
+### 🧠 KMeans Topic Summary (k=5)
+![summary_KMeans_(K=5)](images/summary_KMeans_(K=5).png)
+
+## 🖥️ Interactive Dashboard & Email Report
+
+The project includes an intuitive Streamlit app with multiple exploration tabs and filtering options, allowing users to visually inspect clusters, word clouds, and sample posts interactively. It also features an automated **email digest** summarizing key insights.
+
+### 📊 Dashboard Interface
+![dashboard](screenshots_ui/dashboard.png)
+
+### 📬 Daily Email Summary
+![email_summary](screenshots_ui/email_summary.png)
+
+
+
+## ⚙️ Project Setup & Requirements
+
+This project runs as a full Python + Streamlit app. You’ll need to clone the repo, install the dependencies, and run the app locally.
 
 ---
 
-## 🧠 Scientific Choices & Rationale
+### 🔧 1. Install Dependencies
 
-- **Sentence Embeddings (MiniLM)**: Balanced between speed and semantic richness, MiniLM lets us represent posts in vector space for clustering.
-- **Keyword Extraction (KeyBERT)**: Uses transformer similarity to pull contextually relevant terms (not just frequent words).
-- **KMeans**: Good for structured, quick clustering; we tune `k` with elbow and silhouette score.
-- **HDBSCAN**: Excels at detecting noise and irregular cluster shapes — more realistic for Reddit's messy, organic data.
-- **PCA**: Helps reduce high-dimensional embeddings to 2D while preserving structure for scatter plot visualization.
-- **Streamlit**: Chosen for interactive UX, easy exploration, and fast deployment.
-- **Email Summary**: Scripted email reports allow optional stakeholder updates with keyword summaries.
+Create a virtual environment (optional but recommended):
 
----
-
-## 📁 Folder Structure
-
-```
-.
-├── fetch_data.py
-├── clean_data.py
-├── encode_text.py
-├── extract_keywords.py
-├── cluster_kmeans.py
-├── cluster_hdbscan.py
-├── add_pca_coordinates.py
-├── app.py
-├── email_dispatcher.py
-├── clustering_analysis_.ipynb
-├── requirements.txt
-├── dockerfile
-├── .env.example
-├── .gitignore
-└── data/
-    ├── reddit_raw.csv
-    ├── reddit_clean.csv
-    ├── reddit_embeddings_clean.npy
-    ├── reddit_kmeans_k4_clusters.csv
-    ├── reddit_kmeans_k5_clusters.csv
-    ├── reddit_hdbscan_clustered.csv
-    ├── elbow.jpg
-    ├── kmeans_k4.jpg
-    ├── kmeans_k5.jpg
-    ├── hdbscan.jpg
-```
-
----
-
-## ⚙️ How to Run Everything (FULL PIPELINE)
-
-### 1. 🔧 Install dependencies
 ```bash
-git clone https://github.com/your/reddit-topic-explorer.git
-cd reddit-topic-explorer
-cp .env.example .env
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+```
+
+Install required packages:
+
+```bash
 pip install -r requirements.txt
 ```
 
-### 2. 🔁 Run full pipeline step-by-step
+Or install manually:
+
 ```bash
-python fetch_data.py           # Pull Reddit posts (PRAW)
-python clean_data.py           # Clean & normalize
-python encode_text.py          # Embed with MiniLM
-python extract_keywords.py     # Keyword extraction (KeyBERT)
-python cluster_kmeans.py       # KMeans clustering + visuals
-python cluster_hdbscan.py      # HDBSCAN clustering + visuals
-python extract_keywords.py     # Keyword extraction (KeyBERT)
-python add_pca_coordinates.py  # For dashboard visual scatter
+pip install pandas numpy matplotlib seaborn scikit-learn streamlit wordcloud
 ```
 
-### 3. 🧪 Explore clusters in the notebook
-Open `clustering_analysis_.ipynb` for:
-- Cluster samples
-- Keyword coherence checks
-- Dimensionality sanity checks
+---
 
-### 4. 📊 Launch Streamlit dashboard
+### ▶️ 3. Run the App
+
+Start the Streamlit app locally:
+
 ```bash
 streamlit run app.py
 ```
 
-Use the dashboard to:
-- Filter posts by cluster or keywords
-- Explore PCA scatter
-- Dive into each cluster’s topic
+Then open your browser at: [http://localhost:8501](http://localhost:8501)
 
-### 5. 📬 Send summary by email (optional)
-```bash
-python email_dispatcher.py
-```
+## 🧠 Technical Insights & Design Decisions
 
-Your `.env` must include SMTP credentials:
-```
-REDDIT_CLIENT_ID=your_id
-REDDIT_CLIENT_SECRET=your_secret
-REDDIT_USERNAME=your_username
-REDDIT_PASSWORD=your_password
-REDDIT_USER_AGENT=reddit-topic-explorer
+### 🔤 Why MiniLM for Embeddings?
+We chose **MiniLM** as the sentence embedding model for its excellent trade-off between **semantic richness and speed**. Unlike traditional TF-IDF or even older transformers, MiniLM captures contextual meaning while remaining lightweight enough for large-scale processing. It was especially useful for embedding tens of thousands of Reddit posts quickly without GPU dependency.
 
-EMAIL_HOST=smtp.example.com
-EMAIL_PORT=587
-EMAIL_USER=your@email.com
-EMAIL_PASS=your_password
-EMAIL_TO=recipient@email.com
-```
+### 🔍 Why Use Both KMeans and HDBSCAN?
+We implemented **both** clustering algorithms to showcase their strengths:
+- **KMeans** provides clean, fixed-size clusters and is ideal when the number of clusters is known or can be estimated (via Elbow method).
+- **HDBSCAN** is density-based and excels at discovering clusters of varying shapes and densities, while also identifying noise (outliers) — making it more robust in unsupervised settings.
 
-## 🖥️ App Preview
+Including both gives users flexibility and allows comparison of cluster quality.
 
-<img src="data/screenshots/dashboard.png" width="700"/>
+### 🌗 Why a Basic/Summary Toggle?
+Some users prefer a **raw, unprocessed view** of the posts (basic), while others benefit from **summary-enhanced data**, which includes extracted keywords for faster interpretation. The toggle lets the user decide the experience — helping both casual exploration and analytical insight.
 
-<img src="data/screenshots/email_summary.png" width="700"/>
+### ✨ Keyword Highlighting in Posts
+To improve post readability, the app highlights:
+- **User-provided keywords** in a distinct color
+- **Auto-generated summary keywords** using KeyBERT or similar tools
 
----
+These highlights help users quickly identify the **most relevant parts** of a post without reading everything line-by-line — improving topic scanning and content understanding.
 
-## 📸 Sample Visuals (Saved to `/data`)
+## 🎥 Demo
 
-- `elbow.jpg` — Optimal number of clusters (KMeans)
-- `kmeans_k4.jpg` / `kmeans_k5.jpg` — Cluster scatter plot
-- `hdbscan.jpg` — Density-based clustering view
+Here's a quick preview of the Streamlit app in action:
 
-You can view these in the notebook or dashboard.
-
----
-
-## 🧩 Ideas for Extensions
-
-- Sentiment analysis of each cluster
-- Live streaming pipeline (Reddit → Kafka → Dashboard)
-- Topic modeling with LDA or BERTopic
-- Multilingual support + translation
-- Save interactive views as PDF reports
-- Hugging Face Spaces / Streamlit Cloud deployment
-
----
-
-## 🛠️ Technologies Used
-
-Built with:
-- 🤖 `sentence-transformers`
-- 🔍 `KeyBERT`
-- 📊 `scikit-learn`, `HDBSCAN`, `PCA`
-- 🧼 `NLTK`, `re`
-- 🚀 `Streamlit`
-- 🐍 `PRAW` (Python Reddit API Wrapper)
-
----
-
-## ✨ Final Thoughts
-
-This project combines **language modeling, unsupervised learning**, and **interactive visualization** in a pipeline that is technically sound and shows strong potential for exploratory insight discovery in real-world datasets like Reddit.
+![Reddit Clustering Explorer Demo](images/streamlit-app-demo.gif)
