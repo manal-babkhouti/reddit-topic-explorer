@@ -89,10 +89,10 @@ This project follows a structured, real-world pipeline from data acquisition to 
 ![summary_HDBSCAN](images/summary_HDBSCAN.png)
 
 ### 🧠 KMeans Topic Summary (k=4)
-![summary_KMeans_(K=4)](images/summary_KMeans_(K=4).png)
+![summary_KMeans_(k=4)](images/summary_KMeans_%28k%3D4%29.png)
 
 ### 🧠 KMeans Topic Summary (k=5)
-![summary_KMeans_(K=5)](images/summary_KMeans_(K=5).png)
+![summary_KMeans_(k=5)](images/summary_KMeans_%28k%3D5%29.png)
 
 ## 🖥️ Interactive Dashboard & Email Report
 
