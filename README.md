@@ -59,31 +59,25 @@ This project takes Reddit post data and transforms it into a fully interactive t
 7. **🌓 UI Features**  
    Built with **Streamlit**, the app includes a responsive layout, dark/light themes, sidebar controls, and expandable filters.
 
-##📌 Project Pipeline & Visual Insights
+## 📌 Project Pipeline & Visual Insights
 
 This project follows a structured, real-world pipeline from data acquisition to insightful visualization and automated summarization:
 
-🔄 End-to-End Pipeline Overview
 
-graph TD;
-    A[Reddit Data Collection] --> B[Text Preprocessing]
-    B --> C[Sentence Embeddings<br>with MiniLM]
-    C --> D[Clustering<br>(KMeans, HDBSCAN)]
-    D --> E[Dimensionality Reduction<br>(PCA, UMAP)]
-    D --> F[Keyword Summarization<br>with KeyBERT]
-    F --> G[Interactive Dashboard<br>with Streamlit]
-    G --> H[Automated Email Summaries]
+#### 🔄 End-to-End Pipeline Overview
+![pipeline_overview](images/pipeline_overview.png)
 
-##📊 Visualizations & Results
+
+## 📊 Visualizations & Results
 
 #### 📍 Cluster Visualization: KMeans (k=4)
-![kmeans_k4](images/kmeans_k4.png)
+![kmeans_k4](images/kmeans_k4.jpg)
 
 #### 📍 Cluster Visualization: KMeans (k=5)
-![kmeans_k5](images/kmeans_k5.png)
+![kmeans_k5](images/kmeans_k5.jpg)
 
 #### 📍 Cluster Visualization: HDBSCAN + UMAP
-![hdbscan_umap_plot](images/hdbscan_umap_plot.png)
+![hdbscan_umap_plot](images/hdbscan_umap_plot.jpg)
 
 #### 📈 Elbow Plot for K Tuning
 ![elbow](images/elbow.jpg)
