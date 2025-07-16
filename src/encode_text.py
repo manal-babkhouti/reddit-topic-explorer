@@ -1,23 +1,35 @@
-# encode_text.py
+# src/encode_text.py
 
+import os
 import pandas as pd
 import numpy as np
 from sentence_transformers import SentenceTransformer
-import os
 
-# Load cleaned data
-df = pd.read_csv("data/reddit_clean.csv")
 
-# Use the 'clean_text' column for embedding
-texts = df["clean_text"].fillna("").tolist()
+def encode_text_column(
+    input_path: str = "data/reddit_clean.csv",
+    output_path: str = "data/reddit_embeddings_clean.npy",
+    text_col: str = "clean_text"
+) -> None:
+    """
+    Encode text using a SentenceTransformer (MiniLM) and save embeddings.
 
-# Load MiniLM model
-model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+    Args:
+        input_path: Path to the cleaned dataset
+        output_path: File to save the generated embeddings
+        text_col: Name of the column to encode
+    """
+    print(f"🔁 Loading cleaned data from {input_path}...")
+    df = pd.read_csv(input_path)
+    texts = df[text_col].fillna("").tolist()
 
-# Generate embeddings
-embeddings = model.encode(texts, show_progress_bar=True)
+    print("🔤 Generating embeddings with MiniLM...")
+    model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+    embeddings = model.encode(texts, show_progress_bar=True)
 
-# Save embeddings with a descriptive filename
-np.save("data/reddit_embeddings_clean.npy", embeddings)
+    np.save(output_path, embeddings)
+    print(f"✅ Embeddings saved to: {output_path}")
 
-print("✅ Embeddings generated and saved to data/reddit_embeddings_clean.npy")
+
+if __name__ == "__main__":
+    encode_text_column()

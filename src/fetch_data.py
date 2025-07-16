@@ -6,7 +6,7 @@ import pandas as pd
 import datetime
 from dotenv import load_dotenv
 
-# === Load Reddit API credentials ===
+# === Load credentials from .env ===
 load_dotenv()
 
 reddit = praw.Reddit(
@@ -17,7 +17,7 @@ reddit = praw.Reddit(
     user_agent=os.getenv("REDDIT_USER_AGENT")
 )
 
-# === List of subreddits to crawl ===
+# === Target subreddits ===
 TARGET_SUBREDDITS = [
     "MachineLearning",
     "learnmachinelearning",
@@ -25,13 +25,20 @@ TARGET_SUBREDDITS = [
     "deeplearning"
 ]
 
-def fetch_subreddit_posts(subreddit_name, limit=500):
+def fetch_subreddit_posts(subreddit_name: str, limit: int = 500) -> list[dict]:
     """
-    Fetch top posts from a given subreddit using PRAW.
-    Filters out posts with short or empty selftext.
+    Fetch top posts from a subreddit.
+    
+    Args:
+        subreddit_name: Name of the subreddit
+        limit: Max number of posts to fetch
+
+    Returns:
+        List of post dictionaries
     """
     posts = []
     print(f"🔍 Fetching from r/{subreddit_name}...")
+
     try:
         subreddit = reddit.subreddit(subreddit_name)
         for post in subreddit.top(time_filter="month", limit=limit):
@@ -45,24 +52,33 @@ def fetch_subreddit_posts(subreddit_name, limit=500):
                 })
     except Exception as e:
         print(f"⚠️ Error fetching from r/{subreddit_name}: {e}")
-    
+
     print(f"✅ {len(posts)} posts collected from r/{subreddit_name}")
     return posts
 
-def fetch_all_subreddits(subreddits, post_limit=500):
+
+def fetch_all_subreddits(subreddits: list[str], post_limit: int = 500) -> pd.DataFrame:
     """
-    Fetch posts from a list of subreddits and merge into a single DataFrame.
+    Fetch posts from multiple subreddits and save them to CSV.
+
+    Args:
+        subreddits: List of subreddit names
+        post_limit: Max number of posts per subreddit
+
+    Returns:
+        Combined DataFrame of all posts
     """
     all_data = []
     for sub in subreddits:
-        sub_data = fetch_subreddit_posts(sub, post_limit)
-        all_data.extend(sub_data)
+        all_data.extend(fetch_subreddit_posts(sub, post_limit))
 
     df = pd.DataFrame(all_data)
     os.makedirs("data", exist_ok=True)
     df.to_csv("data/reddit_raw.csv", index=False, encoding="utf-8-sig")
+
     print(f"\n🧾 Saved {len(df)} total posts to data/reddit_raw.csv")
     return df
+
 
 if __name__ == "__main__":
     fetch_all_subreddits(TARGET_SUBREDDITS, post_limit=500)
