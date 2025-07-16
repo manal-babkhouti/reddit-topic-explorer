@@ -172,3 +172,31 @@ These highlights help users quickly identify the **most relevant parts** of a po
 Here's a quick preview of the Streamlit app in action:
 
 ![Reddit Clustering Explorer Demo](images/streamlit-app-demo.gif)
+
+## 🐳 Run with Docker
+
+No need to set up environments manually — you can run the entire app inside a container using Docker.
+
+### 🔧 Build the Docker Image
+
+```bash
+docker build -t reddit-topic-explorer .
+```
+
+### ▶️ Launch the App
+
+```bash
+docker run -p 8501:8501 reddit-topic-explorer
+```
+
+Then visit [http://localhost:8501](http://localhost:8501) in your browser to start exploring topics.
+
+---
+
+📦 The provided `Dockerfile` uses Python 3.11-slim, installs dependencies from `requirements.txt`, and starts the Streamlit app on port 8501 automatically.
+
+
+
+
+
+
